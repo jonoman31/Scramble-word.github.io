@@ -32,14 +32,13 @@
                 d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"
               ></path>
             </svg>
-            <p class="font-semibold">hck_word</p>
+            <p class="ml-1 font-semibold">hck_word</p>
           </div>
-          <div class="flex space-x-2">
+          <div class="flex space-x-4">
             <!-- button music -->
             <button>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-music"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -60,7 +59,6 @@
             <button onclick="leaderboard()">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="icon icon-tabler icon-tabler-trophy"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -268,11 +266,50 @@
               labore perspiciatis recusandae illum, id necessitatibus similique.
               Harum ipsam fugit neque!
             </p>
-            <input
-              type="text"
-              id="answer"
-              class="border border-slate-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-            />
+            <div class="flex items-center space-x-2">
+              <input
+                type="text"
+                id="answer"
+                class="border border-slate-500 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+              />
+              <!-- checklist atau benar  -->
+              <div
+                class="p-2 text-green-500 border rounded-lg border-slate-500"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="3"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M5 12l5 5l10 -10"></path>
+                </svg>
+              </div>
+              <!-- cross atau salah -->
+              <div class="p-2 text-red-500 border rounded-lg border-slate-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="3"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M18 6l-12 12"></path>
+                  <path d="M6 6l12 12"></path>
+                </svg>
+              </div>
+            </div>
             <div class="flex space-x-2">
               <button
                 class="px-2.5 py-2 mt-5 w-full text-sm border border-red-400 rounded-md hover:bg-red-100 bg-red-50"
