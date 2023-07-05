@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scramble Word</title>
+    <link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body>
+    <div class="newuser">
+
+        <h1 id="greet" class="inputnew">Halo, Silahkan masukan nama</h1>
+        <input type="text" id="nameuser" class="inputnew" placeholder="username">
+    </div>
+    <div class="kuis">
+        <h2 id="pertanyaan"></h2>
+        <h4 id="mypoint"></h4>
+        <input type="text" id="idjawaban" style="display: none;" placeholder="answer">
+        <h4 id="result-jawaban"></h4>
+        <p id="back-home" style="display: none;">Home</p>
+    </div>
+    <div class="popup-overlay" id="popup" style="display: none;">
+        <div class="popup">
+            <h2>Congratulations!</h2>
+            <p id="popup-msg"></p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+    <div class="copyright">
+        <h6 id="copyright-tittle">Build with ♥ by HCK61</h6>
+    </div>
+    <div class="leaderboard">
+        <button id="button-leaderboard" onclick="leaderboard()">Leaderboard</button>
+        <ol id="list-leaderboard" style="display: none">
+        </ol>
+    </div>
+
+    <script src=" index.js">
+    </script>
+</body>
+
+</html>
