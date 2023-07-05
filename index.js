@@ -25,9 +25,24 @@ names.addEventListener("change", () => {
 });
 
 
+
 document.getElementById("idjawaban").addEventListener("change", () => {
     checkAnswer();
 });
+
+function BGmusic() {
+    var music = document.getElementById("music")
+    var icon = document.getElementById("icon")
+    icon.onclick = function () {
+        if (music.paused) {
+            music.play();
+            icon.src = "./img/pause_button.png"
+        } else {
+            music.pause();
+            icon.src = "./img/play_button.png"
+        }
+    }
+}
 
 function updateQuestion() {
     if (currentQuestion < wordlist[0].length) {

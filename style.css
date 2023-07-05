@@ -71,7 +71,6 @@ input:focus {
     margin: 0 auto;
 }
 
-#mypoint {}
 
 .popup-overlay {
     position: fixed;
@@ -123,11 +122,11 @@ button {
 }
 
 button:hover {
-    background-color: #286090;
+    background-color: rgb(40, 96, 144);
 }
 
 #list-leaderboard {
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     padding: 10px;
     border-radius: 12px;
     list-style-position: inside;
@@ -135,6 +134,17 @@ button:hover {
     transition: opacity 0.5s linear;
 }
 
-#list-leaderboard.hide {
-    opacity: 0;
+
+#icon {
+    width: 35px;
+    cursor: pointer;
+    position: absolute;
+    top: 47px;
+    right: 175px;
+    color: #1988f7;
+    opacity: 0.9;
+}
+
+#icon:hover {
+    opacity: 0.4;
 }
