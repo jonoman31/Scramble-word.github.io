@@ -12,18 +12,24 @@ let object = {
 }
 
 function submit_form() {
-    object["name"] = document.getElementById("nameuser").value;
-    let genders = document.getElementsByName("gender-radio");
-    genders.forEach(gender => {
-        if (gender.checked) {
-            object["gender"] = gender.value;
-        }
-    });
-    document.getElementById("register").style.display = "none";
-    document.getElementById("quiz-content").style.display = "block";
-    document.getElementById("greeting-quiz").innerText = object.name;
-    document.getElementById("score-quiz").innerText = object.totalScore;
-    questionPage();
+    let username = document.getElementById("nameuser").value;
+    object["name"] = username
+    if (!username) {
+        alert("Silahkan masukan nama")
+    } else {
+        let genders = document.getElementsByName("gender-radio");
+        genders.forEach(gender => {
+            if (gender.checked) {
+                object["gender"] = gender.value;
+            }
+        });
+        document.getElementById("register").style.display = "none";
+        document.getElementById("quiz-content").style.display = "block";
+        document.getElementById("greeting-quiz").innerText = object.name;
+        document.getElementById("score-quiz").innerText = object.totalScore;
+        questionPage();
+    }
+
 }
 
 let currentQuestionIndex = 0;
@@ -161,10 +167,10 @@ function BGmusic() {
     icon.onclick = function () {
         if (music.paused) {
             music.play();
-            icon.src = "./img/pause_button.png"
+            // icon.src = "./img/pause_button.png"
         } else {
             music.pause();
-            icon.src = "./img/play_button.png"
+            // icon.src = "./img/play_button.png"
         }
     }
 }
