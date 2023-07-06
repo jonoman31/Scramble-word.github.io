@@ -1,56 +1,89 @@
-let names = document.getElementById("nameuser");
-let greet = document.getElementById("greet");
-let currentQuestion = 0;
-let mypoint = 0
-let wordlist = [];
+window.addEventListener("load", () => {
+    let idlead = document.getElementById("leaderboard-content")
+    // .style.display = "block";
+    console.log(idlead)
+    leaderboard();
+
+});
+
 let object = {
     "name": "",
     "totalScore": 0
 }
-let ms = localStorage.getItem("name")
-ms = JSON.parse(ms)
-names.addEventListener("change", () => {
-    greet.innerHTML = "Halo " + names.value;
-    object.name = names.value
-    localStorage.setItem("name", JSON.stringify(object))
-    names.remove();
-    wordlist = words();
-    let gotohome = document.getElementById("back-home")
-    gotohome.addEventListener("click", () => {
-        location.reload()
-    })
-    gotohome.style.display = "block"
-    document.getElementById("idjawaban").style.display = "flex";
-    updateQuestion();
-});
 
-
-
-document.getElementById("idjawaban").addEventListener("change", () => {
-    checkAnswer();
-});
-
-function BGmusic() {
-    var music = document.getElementById("music")
-    var icon = document.getElementById("icon")
-    icon.onclick = function () {
-        if (music.paused) {
-            music.play();
-            icon.src = "./img/pause_button.png"
-        } else {
-            music.pause();
-            icon.src = "./img/play_button.png"
+function submit_form() {
+    object["name"] = document.getElementById("nameuser").value;
+    let genders = document.getElementsByName("gender-radio");
+    genders.forEach(gender => {
+        if (gender.checked) {
+            object["gender"] = gender.value;
         }
+    });
+    document.getElementById("register").style.display = "none";
+    document.getElementById("quiz-content").style.display = "block";
+    document.getElementById("greeting-quiz").innerText = object.name;
+    document.getElementById("score-quiz").innerText = object.totalScore;
+    questionPage();
+}
+
+let currentQuestionIndex = 0;
+
+function questionPage() {
+    if (currentQuestionIndex < words()[0].length) {
+        document.getElementById("question").innerText = words()[0][currentQuestionIndex];
+        document.getElementById("hint").innerText = words()[2][currentQuestionIndex];
+        currentQuestionIndex++;
+    } else {
+        console.log("All questions displayed");
+        // Implement functionality for when all questions have been answered, like showing the score
     }
 }
 
-function updateQuestion() {
-    if (currentQuestion < wordlist[0].length) {
-        let question = document.getElementById("pertanyaan");
-        question.innerHTML = wordlist[0][currentQuestion];
+function checkAnswer() {
+    let answer = document.getElementById("answer").value.toLowerCase();
+    let correctAnswer = words()[1][currentQuestionIndex - 1].toLowerCase();
+    if (answer === correctAnswer) {
+        object.totalScore += 10;
+        document.getElementById("score-quiz").innerText = object.totalScore;
+        document.getElementById("answer").value = '';
+        saveToLocalStorage();
     } else {
-        popup(); // menampilkan popup ketika game selesai
+        document.getElementById("answer").value = "";
     }
+    questionPage();
+}
+
+function backhome() {
+    savetolocal()
+    location.reload()
+}
+
+function savetolocal() {
+    localStorage.setItem("datas", JSON.stringify(object))
+}
+
+
+function words() {
+    let correctWords = ["Bunga", "Bantal", "Kacamata", "Handuk", "Sepatu", "Lampu", "Botol", "Pensil", "Pesawat"];
+    let hint = ["mempunyai tangkai dan berakar", "Biasa digunakan untuk tidur", "sering digunakan untuk membantu pengelihatan", "alat untuk mengeringkan badan dari air", "sepasang dan digunakan untuk melindungi kaki", "digunakan untuk menerangi ruangan", "wadah untuk menampung air minum", "alat untuk menulis dan dapat dihapus", "alat transportasi udara"]
+    let strippedWords = [];
+
+    for (let i = 0; i < correctWords.length; i++) {
+        let word = correctWords[i].split('');
+        let indices = [];
+        while (indices.length < 2 || indices.length > 2) {
+            indices = [];
+            for (let j = 0; j < word.length; j++) {
+                Math.random() > 0.5 ? indices.push(j) : ""
+            }
+        }
+        for (let j = 0; j < indices.length; j++) {
+            word[indices[j]] = '_';
+        }
+        strippedWords.push(word.join(''));
+    }
+
+    return [strippedWords, correctWords, hint];
 }
 
 
@@ -82,127 +115,56 @@ function leaderboard() {
         },
         {
             name: "Manesty",
-            totalScore: 1337
+            totalScore: 999
         },
     ]
     let myscore = localStorage.getItem("name")
-    myscore = JSON.parse(myscore)
-    console.log(myscore["totalScore"])
-    if (myscore.totalScore != 0) {
-        dummy.push(myscore)
+    if (myscore) {
+        myscore = JSON.parse(myscore)
+        if (myscore.totalScore != 0) {
+            dummy.push(myscore)
+        }
     }
+
 
 
     // var byDate = dummy.slice(0);
     let sortedProducts = dummy.sort(
         (p1, p2) => (p1.totalScore < p2.totalScore) ? 1 : (p1.totalScore > p2.totalScore) ? -1 : 0);
 
-    let idleaderboard = document.getElementById("list-leaderboard")
-
-    if (idleaderboard.style.display === "none") {
-        idleaderboard.style.display = "block";
+    let idleaderboard = document.getElementById("leader-second")
+    let primaryLeader = document.getElementById("leaderboard-content")
+    console.log(primaryLeader)
+    if (primaryLeader.style.display === "none") {
+        primaryLeader.style.display = "block";
     } else {
-        idleaderboard.style.display = "none";
+        primaryLeader.style.display = "none";
 
     }
     let temp = ""
 
-    sortedProducts.forEach(element => {
-        temp += `<li>${element["name"]}: ${element["totalScore"]}</li>`
+    sortedProducts.forEach((element, index) => {
+        if (index !== 0) {
+            temp += `<div class="flex justify-between px-5 py-2 space-x-2 rounded-md bg-slate-100">
+            <li>${element["name"]}: ${element["totalScore"]}</li>
+        </div>`
+        } else {
+            document.getElementById("top1-winner").innerHTML = `${element["name"]}: ${element["totalScore"]}`
+        }
     });
     idleaderboard.innerHTML = temp
 }
 
-function popup() {
-    let pop = document.getElementById("popup")
-    let pops = document.getElementById('popup-msg')
-    pops.innerHTML = "You got score " + mypoint
-    object.totalScore = mypoint
-    pop.style.display = "flex"
-    localStorage.setItem(object)
-}
-
-function closePopup() {
-    let popup = document.getElementById('popup');
-
-    popup.style.display = 'none';
-    location.reload()
-}
-
-function checkAnswer() {
-    if (currentQuestion < wordlist[0].length) {
-        let point = document.getElementById("mypoint");
-        let answerInput = document.getElementById("idjawaban");
-        let resAnswer = document.getElementById("result-jawaban");
-        if (answerInput.value.toLowerCase() === wordlist[1][currentQuestion].toLowerCase()) {
-            resAnswer.style.color = "yellow";
-            mypoint += 10;
-            resAnswer.innerHTML = "jawaban anda benar";
-            point.innerHTML = `Point anda ${mypoint}`;
-            object.totalScore = mypoint
-            localStorage.setItem("name", JSON.stringify(object))
-
+function BGmusic() {
+    var music = document.getElementById("music")
+    var icon = document.getElementById("icon")
+    icon.onclick = function () {
+        if (music.paused) {
+            music.play();
+            icon.src = "./img/pause_button.png"
         } else {
-            resAnswer.style.color = "red";
-            resAnswer.innerHTML = "jawaban anda salah";
+            music.pause();
+            icon.src = "./img/play_button.png"
         }
-        currentQuestion++;
-        updateQuestion();
-        answerInput.value = "";
     }
 }
-
-function words() {
-    let correctWords = ["Bunga", "Kursi", "Kacamata", "Handuk", "Sepatu", "Malang", "Lampu", "Botol", "Pensil", "Pesawat"];
-    let strippedWords = [];
-
-    for (let i = 0; i < correctWords.length; i++) {
-        let word = correctWords[i].split('');
-        let indices = [];
-        while (indices.length < 2 || indices.length > 2) {
-            indices = [];
-            for (let j = 0; j < word.length; j++) {
-                Math.random() > 0.5 ? indices.push(j) : ""
-            }
-        }
-        for (let j = 0; j < indices.length; j++) {
-            word[indices[j]] = '_';
-        }
-        strippedWords.push(word.join(''));
-    }
-
-    return [strippedWords, correctWords];
-}
-
-
-
-// function play() {
-//     console.clear()
-//     let name = "Jason"
-//     let maxHint = 3
-//     let score = 0
-//     let myans = ""
-//     let listWord = words()
-//     console.log("Hello ", name, "Ayo main tebak Kata")
-//     for (let index = 0; index < listWord[0].length; index++) {
-//         const element = listWord[0][index];
-//         console.log("Tebak kata berikut: " + element)
-//         myans = readline.question("Jawaban: ")
-//         if (myans === "h") {
-
-//         }
-//         console.clear()
-
-//         if (myans.toLowerCase() === listWord[1][index].toLowerCase()) {
-//             score += 10
-//             console.log("Jawaban anda benar !", "Score anda sekarang:", score)
-//         } else {
-//             console.log("Jawaban anda Salah !")
-//             console.log("Jawaban benar:", listWord[1][index])
-//         }
-
-//     }
-//     console.log()
-
-// }
-// play()
