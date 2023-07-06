@@ -1,14 +1,11 @@
 window.addEventListener("load", () => {
-    let idlead = document.getElementById("leaderboard-content")
-    // .style.display = "block";
-    console.log(idlead)
     leaderboard();
-
 });
 
 let object = {
     "name": "",
-    "totalScore": 0
+    "totalScore": 0,
+    "gender": ""
 }
 
 function submit_form() {
@@ -32,7 +29,6 @@ function submit_form() {
     }
 
 }
-
 let currentQuestionIndex = 0;
 
 function questionPage() {
@@ -41,23 +37,33 @@ function questionPage() {
         document.getElementById("hint").innerText = words()[2][currentQuestionIndex];
         currentQuestionIndex++;
     } else {
-        console.log("All questions displayed");
+        showPopUp()
         // Implement functionality for when all questions have been answered, like showing the score
     }
 }
 
 function checkAnswer() {
+    var correct = document.getElementById("correct-answer")
+    var wrong = document.getElementById("wrong-answer")
     let answer = document.getElementById("answer").value.toLowerCase();
     let correctAnswer = words()[1][currentQuestionIndex - 1].toLowerCase();
     if (answer === correctAnswer) {
+        bgmCorrect()
+        correct.style.display = "block"
         object.totalScore += 10;
         document.getElementById("score-quiz").innerText = object.totalScore;
         document.getElementById("answer").value = '';
         savetolocal();
     } else {
+        bgmWrong()
+        wrong.style.display = "block"
         document.getElementById("answer").value = "";
     }
-    questionPage();
+    setTimeout(function () {
+        correct.style.display = "none";
+        wrong.style.display = "none";
+        questionPage();
+    }, 600);
 }
 
 function backhome() {
@@ -93,6 +99,22 @@ function words() {
     return [strippedWords, correctWords, hint];
 }
 
+function showPopUp() {
+    let pop = document.getElementById("pop-up")
+    pop.style.display = "flex"
+    let popupname = document.getElementById("popup-name")
+    let findIndex = findMyIndex() + 1
+    let popupmessage = document.getElementById("popup-message")
+    popupname.innerHTML = "Hi, " + object["name"]
+
+    popupmessage.innerHTML = `Anda menempati peringkat ${findIndex} dengan score ${object["totalScore"]}`
+}
+
+function findMyIndex() {
+    let sortedProducts = leaderboard()
+    let posisition = sortedProducts.map(i => i["name"]).indexOf(object["name"]);
+    return posisition
+}
 
 function leaderboard() {
 
@@ -125,7 +147,7 @@ function leaderboard() {
             totalScore: 999
         },
     ]
-    let myscore = localStorage.getItem("name")
+    let myscore = localStorage.getItem("datas")
     if (myscore) {
         myscore = JSON.parse(myscore)
         if (myscore.totalScore != 0) {
@@ -133,15 +155,11 @@ function leaderboard() {
         }
     }
 
-
-
-    // var byDate = dummy.slice(0);
     let sortedProducts = dummy.sort(
         (p1, p2) => (p1.totalScore < p2.totalScore) ? 1 : (p1.totalScore > p2.totalScore) ? -1 : 0);
 
     let idleaderboard = document.getElementById("leader-second")
     let primaryLeader = document.getElementById("leaderboard-content")
-    console.log(primaryLeader)
     if (primaryLeader.style.display === "none") {
         primaryLeader.style.display = "block";
     } else {
@@ -160,18 +178,42 @@ function leaderboard() {
         }
     });
     idleaderboard.innerHTML = temp
+    return sortedProducts
 }
 
 function BGmusic() {
-    var music = document.getElementById("music")
-    var icon = document.getElementById("icon")
-    icon.onclick = function () {
-        if (music.paused) {
-            music.play();
-            icon.src = "./img/pause_button.png"
-        } else {
-            music.pause();
-            icon.src = "./img/play_button.png"
-        }
+    let music = document.getElementById("music")
+    var musicon = document.getElementById("music-on")
+    let musicoff = document.getElementById("music-off")
+    if (!music.paused) {
+        music.pause()
+        musicoff.style.display = "none"
+        musicon.style.display = "block"
+    } else {
+        musicon.style.display = "none"
+        musicoff.style.display = "block"
+        music.play()
+
     }
+}
+
+function bgmCorrect() {
+    let musicID = document.getElementById("music-correct");
+    musicID.muted = false;
+    musicID.currentTime = 0;
+    musicID.play();
+}
+
+function bgmWrong() {
+    let musicID = document.getElementById("music-wrong");
+    musicID.muted = false;
+    musicID.currentTime = 0;
+    musicID.play();
+}
+
+
+function closePopUp() {
+    document.getElementById("pop-up").style.display = "none";
+    location.reload()
+
 }
