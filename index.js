@@ -23,6 +23,7 @@ function submit_form() {
                 object["gender"] = gender.value;
             }
         });
+        savetolocal();
         document.getElementById("register").style.display = "none";
         document.getElementById("quiz-content").style.display = "block";
         document.getElementById("greeting-quiz").innerText = object.name;
@@ -52,7 +53,7 @@ function checkAnswer() {
         object.totalScore += 10;
         document.getElementById("score-quiz").innerText = object.totalScore;
         document.getElementById("answer").value = '';
-        saveToLocalStorage();
+        savetolocal();
     } else {
         document.getElementById("answer").value = "";
     }
@@ -167,10 +168,10 @@ function BGmusic() {
     icon.onclick = function () {
         if (music.paused) {
             music.play();
-            // icon.src = "./img/pause_button.png"
+            icon.src = "./img/pause_button.png"
         } else {
             music.pause();
-            // icon.src = "./img/play_button.png"
+            icon.src = "./img/play_button.png"
         }
     }
 }
