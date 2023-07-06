@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="audioBackground.css">
+
+</head>
+<body>
+  <div>
+    <div class="content">
+        <p>Music</p>
+        <img src="img/play_button.png" alt="play button" id="icon">
+      </div>
+      <div>
+        <audio id="music" autoplay loop>
+            <source src="AudioCutter_Flux Vortex - Still Got Time.mp3" type="audio/mp3">
+            <!-- <source src="AudioCutter_Flux Vortex - Still Got Time.mp3" type="audio/mpeg"> -->
+            <!-- Your browser does not support the audio element. -->
+        </audio> 
+        <script>
+          var music = document.getElementById("music")
+          var icon = document.getElementById("icon")
+
+          icon.onclick = function(){
+            if (music.paused){
+              music.play();
+              icon.src = "img/pause_button.png"
+            }else{
+              music.pause();
+              icon.src = "img/play_button.png"
+            }
+          }
+        </script>
+        
+      </div>
+    </body>
+    </html>
+
+    <!-- autoplay controls loop  -->
+    

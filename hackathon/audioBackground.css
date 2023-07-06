@@ -1,0 +1,18 @@
+.content {
+    float:right;
+    margin-right: 80%;
+    margin-top: 650px;
+    display:flex;
+    align-items: center;
+}
+.content p{
+    font-size: 18px;
+    color: purple;
+    font-weight: 400;
+    margin-right: 15px;
+    font-family:fantasy;
+}
+#icon {
+    width: 80px;
+    cursor: pointer;
+}
